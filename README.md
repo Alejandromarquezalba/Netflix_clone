@@ -34,3 +34,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Aviso de derechos de autor
+
+Este proyecto se presenta como parte de mi portafolio para fines de evaluación y demostración de mis habilidades.
+
+Todos los derechos de autor del código fuente y los materiales incluidos en este repositorio son propiedad exclusiva de Cristian Alejandro Marquez Alba.
+
+Se permite la visualización del código con fines de evaluación y revisión. Sin embargo, se prohíbe expresamente la copia, modificación, distribución o uso de este código en cualquier otro proyecto, ya sea comercial o no comercial, sin mi autorización previa por escrito.
+
+Cualquier uso no autorizado de este código constituye una infracción de los derechos de autor y puede dar lugar a acciones legales.
+
+Si estás interesado en utilizar este código en tu proyecto, por favor contáctame a través de 'alejandromarquez.alba@gmail.com' para discutir las opciones de licencia.
+
+Gracias por respetar mi trabajo.
