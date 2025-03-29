@@ -29,7 +29,7 @@ export default function LoginForm() {
             },
         })
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        //aquí va el SETERROr
+        //aquí va el SETerror
         console.log(values)
     }
     
@@ -65,7 +65,7 @@ export default function LoginForm() {
                     )}
                     />
                     <FormError message={formError}></FormError>
-                    <Button className="w-full bg-red" type="submit">Iniciar sesión</Button>
+                    <Button className="w-full cursor-pointer bg-[#a82128]" type="submit">Iniciar sesión</Button>
                 </form>
             </Form>
             )
