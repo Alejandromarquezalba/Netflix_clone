@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Terms from "../components/terms/terms";
+import axios from "axios";
 import { RegisterForm } from "./registerForm";
 
 export default function RegisterPage() {
@@ -21,6 +22,6 @@ export default function RegisterPage() {
             <Terms></Terms>
         </div>
 
-        
+
     )
 }

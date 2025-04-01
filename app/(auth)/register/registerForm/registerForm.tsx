@@ -12,8 +12,8 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { formSchema } from "./registerForm.form";
-
+import { formSchema } from "./registerForm.form"
+import axios from 'axios';
 
 
 export function RegisterForm() {
@@ -25,10 +25,13 @@ export function RegisterForm() {
             repeatPassword: "",
             },
         })
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-            // Do something with the form values. 
-            // ✅ This will be type-safe and validated.
-        console.log(values)
+    const onSubmit = async(values: z.infer<typeof formSchema>) => {
+        try {
+            await axios.post('/api/auth/register', values)
+
+        } catch (error) {
+            console.log(error)
+        }
     }
         
     return (
