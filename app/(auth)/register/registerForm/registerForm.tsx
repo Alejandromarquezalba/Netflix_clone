@@ -17,18 +17,31 @@ import axios from 'axios';
 
 
 export function RegisterForm() {
+
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            name: "",
             email: "",
             password: "",
             repeatPassword: "",
             },
         })
+
+
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try {
-            await axios.post('/api/auth/register', values)
-
+            const dataToSend = {
+                email: values.email,
+                password: values.password,
+                name: values.name,
+            };
+            
+            const response = await axios.post('http://localhost:3000/auth/register', dataToSend);
+        
+            console.log("Registro exitoso:", response.data);
+            alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
         } catch (error) {
             console.log(error)
         }
@@ -37,6 +50,18 @@ export function RegisterForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Input placeholder="Nombre de usuario" {...field} className='h-10'/>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+                />
                 <FormField
                 control={form.control}
                 name="email"
@@ -78,4 +103,9 @@ export function RegisterForm() {
         </Form>
     )
 }
+
+
+
+
+
 

@@ -8,6 +8,9 @@ export const formSchema = z.object({
         message: 'Contraseña muy corta'
     }),
     repeatPassword: z.string(),
+    
+    name: z.string().min(3, { message: "El nombre debe tener al menos 3 caracteres." }),
+
 })
 .refine((data) => data.password === data.repeatPassword, {
     message: 'La contraseña debe ser idéntica',

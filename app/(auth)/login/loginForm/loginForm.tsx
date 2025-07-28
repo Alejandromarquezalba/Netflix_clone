@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { formSchema } from "./loginForm.form";
 import { useState } from "react";
 import { FormError } from "./formError";
-
+import axios from "axios";
 
 export default function LoginForm() {
     const [formError, setFormError] = useState<string | undefined>('');
@@ -28,11 +28,42 @@ export default function LoginForm() {
             password: ""
             },
         })
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        //aquí va el SETerror
-        console.log(values)
+
+//LOGEO 
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setFormError(undefined);
+
+        try {
+            console.log("Intentando iniciar sesión con:", values);
+
+            const response = await axios.post('http://localhost:3000/auth/login', {
+                email: values.email,
+                password: values.password,
+            });
+
+            console.log("Inicio de sesión exitoso:", response.data);
+
+
+            if (response.data.user) {
+                console.log("Información del usuario:", response.data.user);
+            }
+            alert('¡Inicio de sesión exitoso! Serás redirigido.');
+
+        } catch (error) {
+
+            console.error("Error al iniciar sesión:", error);
+            if (axios.isAxiosError(error) && error.response) {
+
+                console.log("Detalles del error del backend:", error.response.data);
+
+                setFormError(error.response.data.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
+            } else {
+                setFormError('Ocurrió un error inesperado al iniciar sesión.');
+            }
+        }
     }
-    
+
+
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full gap-4 flex flex-col">
