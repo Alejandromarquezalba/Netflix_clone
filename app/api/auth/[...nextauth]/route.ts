@@ -2,6 +2,11 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
+interface Credentials {
+    email?: string;
+    password?: string;
+}
+
 const handler = NextAuth({
     providers: [
         CredentialsProvider({
@@ -12,7 +17,7 @@ const handler = NextAuth({
         },
 
 //AUTORIZACION
-    async authorize(credentials, req) {
+    async authorize(credentials: Credentials) {
         try {
             const response = await axios.post('http://localhost:3000/auth/login', {
                 email: credentials?.email,
@@ -40,7 +45,7 @@ const handler = NextAuth({
         strategy: 'jwt',
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user }: { token: any; user?: any }) {
         if (user) {
 
             token.email = user.email;
@@ -49,7 +54,7 @@ const handler = NextAuth({
         }
         return token;
         },
-        async session({ session, token }) {
+        async session({ session, token }: { session: any; token: any }) {
         if (token) {
 
             session.user.email = token.email as string;
