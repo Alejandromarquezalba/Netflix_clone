@@ -5,12 +5,19 @@ import { MyLogo } from "../../MyLogo";
 import { itemsNavbar } from "@/data/itemsNavbar";
 import Link from "next/link";
 import { scrollPositionFunc } from "@/hooks/scrollPosition";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 
 
 export function NavbarDesktop() {
     const scrollPosition = scrollPositionFunc();
     console.log(scrollPosition);
+
+    const { data: session, status } = useSession(); 
+
+    const displayedNavItems = itemsNavbar.filter(item => {
+        return !item.authRequired || status === 'authenticated';
+    });
 
 
     return (
@@ -24,7 +31,7 @@ export function NavbarDesktop() {
                     <div className="flex gap-2 items-center">
                         <MyLogo></MyLogo>
                         <div className="ml-10 flex gap-4">
-                            {itemsNavbar.map((item)=>(
+                            {displayedNavItems.map((item)=>(
                                 <Link key={item.title} href={item.href} className="duration-300 hover:text-gray-400 transition-all">
                                     {item.title}
                                 </Link>
@@ -33,9 +40,31 @@ export function NavbarDesktop() {
                     </div>
 
                     <div className="flex gap-4 items-center">
-                        <Search></Search>
-                        <BellRing></BellRing>
-                        <p>Usuario</p>
+                        {status === 'authenticated' && <Search/>} 
+
+                        {status === 'authenticated' && <BellRing />} 
+                        
+                        {/* --- Lógica para mostrar nombre de usuario / botones de autenticación --- */}
+                        {status === 'loading' && <p>Cargando...</p>} 
+                        {status === 'authenticated' && session.user ? (
+                            <>
+                                <p>Hola, {session.user.name || session.user.email || 'Usuario'}</p> 
+                                <button
+                                    onClick={() => signOut()} 
+                                    className="duration-300 hover:text-gray-400 transition-all cursor-pointer"
+                                >
+                                    Cerrar Sesión
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => signIn(undefined, { callbackUrl: '/' })}
+                                className="duration-300 hover:text-gray-400 transition-all cursor-pointer"
+                            >
+                                Iniciar Sesión
+                            </button>
+                        )}
+
                     </div>
 
                 </div>

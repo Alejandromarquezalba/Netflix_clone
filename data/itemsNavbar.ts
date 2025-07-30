@@ -1,22 +1,27 @@
 export const itemsNavbar = [
     {
         title: 'Inicio',
-        href: '/'
+        href: '/',
+        authRequired: false
     },
     {
         title: 'Películas',
-        href: '/movies'
+        href: '/movies',
+        authRequired: true
     },
     {
         title: 'Series',
-        href: '/series'
+        href: '/series',
+        authRequired: true
     },
     {
         title: 'Perfil',
-        href: '/profile'
+        href: '/profile',
+        authRequired: true
     },
     {
         title: 'Mis favoritos',
-        href: '/favorites'
+        href: '/favorites',
+        authRequired: true
     }
 ]

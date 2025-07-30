@@ -43,6 +43,8 @@ const handler = NextAuth({
     },
     session: {
         strategy: 'jwt',
+        maxAge: 60 * 60, //duracion de la sesion 1 hora
+        //updateAge: 30 * 30 // para refrescar la sesión cada 30 minutos
     },
     callbacks: {
         async jwt({ token, user }: { token: any; user?: any }) {

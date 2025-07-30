@@ -17,6 +17,8 @@ import { formSchema } from "./loginForm.form";
 import { useState } from "react";
 import { FormError } from "./formError";
 import axios from "axios";
+import { useRouter } from 'next/navigation';
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
     const [formError, setFormError] = useState<string | undefined>('');
@@ -28,38 +30,32 @@ export default function LoginForm() {
             password: ""
             },
         })
+    
+    const router = useRouter();
 
 //LOGEO 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setFormError(undefined);
 
         try {
-            console.log("Intentando iniciar sesión con:", values);
-
-            const response = await axios.post('http://localhost:3000/auth/login', {
+            //llamada a nextauth
+            const result = await signIn('credentials', {
                 email: values.email,
                 password: values.password,
+                redirect: false,
             });
-
-            console.log("Inicio de sesión exitoso:", response.data);
-
-
-            if (response.data.user) {
-                console.log("Información del usuario:", response.data.user);
-            }
-            alert('¡Inicio de sesión exitoso! Serás redirigido.');
-
-        } catch (error) {
-
-            console.error("Error al iniciar sesión:", error);
-            if (axios.isAxiosError(error) && error.response) {
-
-                console.log("Detalles del error del backend:", error.response.data);
-
-                setFormError(error.response.data.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
+    
+            if (result?.error) {
+                //si hay error, se muestras
+                setFormError(result.error);
             } else {
-                setFormError('Ocurrió un error inesperado al iniciar sesión.');
+                //REDIRECCION A INICIO LOGEO
+                router.push('/');
             }
+    
+        } catch (error) {
+            console.error("Error inesperado:", error);
+            setFormError('Ocurrió un error inesperado al iniciar sesión.');
         }
     }
 
