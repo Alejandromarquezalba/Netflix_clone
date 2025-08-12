@@ -2,13 +2,16 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
-interface Credentials {
-    email?: string;
-    password?: string;
-}
+
 
 const handler = NextAuth({
     providers: [
+        /* Aquí podnría el google provider si lo usara
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
+        */
         CredentialsProvider({
         name: 'Credentials',
         credentials: {
@@ -16,10 +19,12 @@ const handler = NextAuth({
             password: { label: 'Password', type: 'password' }
         },
 
+        
+
 //AUTORIZACION
-    async authorize(credentials: Credentials) {
+    async authorize(credentials) {
         try {
-            const response = await axios.post('http://localhost:3000/auth/login', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
                 email: credentials?.email,
                 password: credentials?.password,
             });
@@ -49,19 +54,22 @@ const handler = NextAuth({
     callbacks: {
         async jwt({ token, user }: { token: any; user?: any }) {
         if (user) {
-
+            token.id = user.id; //
             token.email = user.email;
             token.name = user.name;
-
+            token.role = user.role; //
+            token.accessToken = user.accessToken; //
         }
         return token;
         },
         async session({ session, token }: { session: any; token: any }) {
         if (token) {
 
+            session.user.id = token.id as string; //
             session.user.email = token.email as string;
             session.user.name = token.name as string;
-
+            session.user.role = token.role as string; //ID y ROLE 
+            session.accessToken = token.accessToken as string;
         }
         return session;
         },

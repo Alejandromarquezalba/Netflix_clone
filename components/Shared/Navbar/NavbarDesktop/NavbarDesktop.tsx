@@ -48,7 +48,9 @@ export function NavbarDesktop() {
                         {status === 'loading' && <p>Cargando...</p>} 
                         {status === 'authenticated' && session.user ? (
                             <>
-                                <p>Hola, {session.user.name || session.user.email || 'Usuario'}</p> 
+                                <p>Hola, {session.user.name || session.user.email || 'Usuario'}
+                                {/* para un supuesto unterfaz de admin, ej:{session.user.role === 'ADMIN' && (<span className="ml-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-md">
+                                        ADMIN</span>)}</p> */}</p> 
                                 <button
                                     onClick={() => signOut()} 
                                     className="duration-300 hover:text-gray-400 transition-all cursor-pointer"

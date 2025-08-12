@@ -38,7 +38,7 @@ export function RegisterForm() {
                 name: values.name,
             };
             
-            const response = await axios.post('http://localhost:3000/auth/register', dataToSend);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, dataToSend);
         
             console.log("Registro exitoso:", response.data);
             alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
