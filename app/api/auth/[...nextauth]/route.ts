@@ -1,80 +1,73 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
+import { NextResponse } from 'next/server';
 
 
-
-const handler = NextAuth({
+const authOptions = {
     providers: [
-        /* Aquí podnría el google provider si lo usara
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        }),
-        */
         CredentialsProvider({
-        name: 'Credentials',
-        credentials: {
-            email: { label: 'Email', type: 'text' },
-            password: { label: 'Password', type: 'password' }
-        },
-
-        
-
-//AUTORIZACION
-    async authorize(credentials) {
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-                email: credentials?.email,
-                password: credentials?.password,
-            });
-
-            if (!response.data?.user) { 
-                throw new Error("Usuario no encontrado en la respuesta");
-            }
-
-            return response.data.user;
-        } catch (error: any) {
-            console.error('Error en authorize:', error.response?.data || error.message);
-            throw new Error(error.response?.data?.message || 'Error de autenticación'); 
-        }
-    },
+            name: "Credentials",
+            credentials: {
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials) {
+                try {
+                    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+                        email: credentials?.email,
+                        password: credentials?.password,
+                    });
 
 
+                    console.log("_________Respuesta del login:", response.data);
+                    
+                    if (response.data && response.data.user && response.data.access_token) {
+                        return {
+                            id: response.data.user.id,
+                            email: response.data.user.email,
+                            name: response.data.user.name,
+                            role: response.data.user.role,
+                            accessToken: response.data.access_token,
+                        };
+                    }
+                    return null;
+                } catch (error: any) {
+                    console.error('Error en authorize:', error.response?.data || error.message);
+                    return null;
+                }
+            },
         }),
     ],
     pages: {
         signIn: '/login',
     },
     session: {
-        strategy: 'jwt',
-        maxAge: 60 * 60, //duracion de la sesion 1 hora
-        //updateAge: 30 * 30 // para refrescar la sesión cada 30 minutos
+        strategy: 'jwt' as 'jwt',
+        maxAge: 60 * 60,
     },
     callbacks: {
         async jwt({ token, user }: { token: any; user?: any }) {
-        if (user) {
-            token.id = user.id; //
-            token.email = user.email;
-            token.name = user.name;
-            token.role = user.role; //
-            token.accessToken = user.accessToken; //
-        }
-        return token;
+            if (user) {
+                token.accessToken = user.accessToken;
+                token.id = user.id;
+                token.role = user.role;
+            }
+            return token;
         },
         async session({ session, token }: { session: any; token: any }) {
-        if (token) {
-
-            session.user.id = token.id as string; //
-            session.user.email = token.email as string;
-            session.user.name = token.name as string;
-            session.user.role = token.role as string; //ID y ROLE 
-            session.accessToken = token.accessToken as string;
-        }
-        return session;
+            if (token) {
+                session.accessToken = token.accessToken;
+                session.user.id = token.id;
+                session.user.role = token.role;
+            }
+            return session;
         },
     },
     secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
+const handler = NextAuth(authOptions);
+
+// Estas son las exportaciones que Next.js 13+ necesita
 export { handler as GET, handler as POST };

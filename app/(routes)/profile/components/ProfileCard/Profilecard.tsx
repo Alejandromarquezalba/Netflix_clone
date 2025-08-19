@@ -129,7 +129,18 @@ export default function ProfileCard({
         <div className="border p-4 rounded-lg">
         <h3 className="font-bold">{profile.name}</h3>
         <p>Tipo: {profile.type}</p>
-        <img 
+        <div //AQUI IRIA LA IMG, div con fondo de color nomas a modo de ejemplo, abajo esta la IMG comentada
+        className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mt-2"
+        >
+        {profile.name.charAt(0).toUpperCase()}
+        </div>
+        
+        </div>
+    );
+}
+
+/*
+<img 
             src={avatarSrc} 
             alt={profile.name}
             className="w-16 h-16 rounded-full mt-2"
@@ -137,6 +148,4 @@ export default function ProfileCard({
             (e.target as HTMLImageElement).src = '/default-avatar.png';
             }}
         />
-        </div>
-    );
-}
+*/
