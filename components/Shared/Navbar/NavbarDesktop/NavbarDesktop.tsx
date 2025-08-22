@@ -6,7 +6,7 @@ import { itemsNavbar } from "@/data/itemsNavbar";
 import Link from "next/link";
 import { scrollPositionFunc } from "@/hooks/scrollPosition";
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import { useActiveProfile } from '@/contexts/ActiveProfileContext';
 
 
 export function NavbarDesktop() {
@@ -14,6 +14,9 @@ export function NavbarDesktop() {
     console.log(scrollPosition);
 
     const { data: session, status } = useSession(); 
+
+    const { activeProfile } = useActiveProfile();
+
 
     const displayedNavItems = itemsNavbar.filter(item => {
         return !item.authRequired || status === 'authenticated';
@@ -48,9 +51,17 @@ export function NavbarDesktop() {
                         {status === 'loading' && <p>Cargando...</p>} 
                         {status === 'authenticated' && session.user ? (
                             <>
-                                <p>Hola, {session.user.name || session.user.email || 'Usuario'}
-                                {/* para un supuesto unterfaz de admin, ej:{session.user.role === 'ADMIN' && (<span className="ml-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-md">
-                                        ADMIN</span>)}</p> */}</p> 
+                                <p>
+                                Hola, {session.user.name || session.user.email || 'Usuario'}
+                                
+
+                                {activeProfile && (
+                                    <span className="ml-2 px-2 py-1 rounded-md text-sm text-center">
+
+                                    Perfil activo: {activeProfile.name}
+                                    </span>
+                                )}
+                                </p>
                                 <button
                                     onClick={() => signOut()} 
                                     className="duration-300 hover:text-gray-400 transition-all cursor-pointer"

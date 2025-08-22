@@ -2,116 +2,61 @@
 
 import { profile } from 'console';
 import { Profile, ProfileType } from '../Profiles.types';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+
+import { useActiveProfile } from '@/contexts/ActiveProfileContext';
+import { useRouter } from 'next/navigation';
+import { Edit, Trash } from 'lucide-react';
 
 
 import React from 'react';
-
-
 interface ProfileCardProps {
-    profile?: Profile; 
+    profile?: Profile | null;
     isAddNew?: boolean;
-    isManaging?: boolean;
-}
-
-/*
-const profileColors = ['#A855F7', '#EC4899', '#3B82F6', '#10B981'];
-
-export default function ProfileCard({ profile, isAddNew, isManaging }: ProfileCardProps) {
-    
-    
-    //manejamos el caso de "Agregar nuevo perfil"
-    if (isAddNew) {
-        return (
-        <div className="group cursor-pointer">
-            <div className="relative w-32 h-32 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 border-2 border-dashed border-gray-600 hover:border-gray-400 transition-all duration-300 flex items-center justify-center group-hover:scale-105">
-            <Plus className="w-12 h-12 text-gray-400 group-hover:text-white transition-colors" />
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <p className="text-center text-gray-300 group-hover:text-white font-medium transition-colors">
-            Agregar Perfil
-            </p>
-        </div>
-        );
-    }
-        if (!profile) {
-
-            return null;
-        }
-        const profileColor = profile?.color || profileColors[profile?.id.charCodeAt(0) % profileColors.length] || profileColors[0];
-
-    return (
-        <div className="group cursor-pointer relative">
-        <div
-            className="relative w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden ring-4 ring-transparent group-hover:ring-white/30 transition-all duration-300 group-hover:scale-105"
-            style={{ '--profile-color': profileColor } as React.CSSProperties}
-        >
-            <img
-            src={profile?.avatarUrl || 'https://images.unsplash.com/photo-1596495333159-e91008a0d92b?w=150&h=150&fit=crop&crop=face'}
-            alt={profile?.name}
-            className="w-full h-full object-cover"
-            />
-            <div
-            className="absolute inset-0 bg-gradient-to-br opacity-20 group-hover:opacity-40 transition-opacity duration-300"
-            style={{ background: `linear-gradient(135deg, ${profileColor}40, ${profileColor}80)` }}
-            />
-            {profile?.type === ProfileType.CHILD && (
-            <div className="absolute top-2 right-2 bg-orange-500/80 text-white text-xs px-2 py-1 rounded-full font-bold">
-                KIDS
-            </div>
-            )}
-
-            {isManaging && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div className="flex gap-2">
-                <button className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors">
-                    <Edit3 className="w-4 h-4 text-white" />
-                </button>
-                <button className="p-2 bg-red-500/80 rounded-full hover:bg-red-500 transition-colors">
-                    <Trash2 className="w-4 h-4 text-white" />
-                </button>
-                </div>
-            </div>
-            )}
-        </div>
-        <div className="text-center">
-            <h3 className="text-white font-semibold text-lg group-hover:text-gray-200 transition-colors">
-            {profile?.name}
-            </h3>
-            <div
-            className="w-12 h-1 mx-auto mt-2 rounded-full transition-all duration-300 group-hover:w-16"
-            style={{ backgroundColor: profileColor }}
-            />
-        </div>
-        </div>
-    );
-}
-*/
-
-
-interface ProfileCardProps {
-    profile?: Profile; 
-    isAddNew?: boolean;
-    isManaging?: boolean;
+    isManaging: boolean;
+    setIsCreating?: (value: boolean) => void; 
+    handleDeleteProfile?: (id: string) => Promise<void>;
 }
 
 
 export default function ProfileCard({ 
     profile, 
     isAddNew = false, 
-    isManaging = false 
+    isManaging,
+    setIsCreating,
+    handleDeleteProfile
     }: ProfileCardProps) {
+
+    const { setActiveProfile } = useActiveProfile();
+    const router = useRouter();
     
-    // Modo "Añadir nuevo"
+
+    
+    const handleSelect = () => {
+        if (!profile) return;
+        
+        //cnviertimos null a undefined para el contexto
+        const profileForContext: Profile = {
+            ...profile,
+            avatarUrl: profile.avatarUrl ?? undefined,
+            pin: profile.pin ?? undefined,
+            preferredLanguage: profile.preferredLanguage ?? undefined
+            };
+            
+            setActiveProfile(profileForContext);
+            localStorage.setItem('activeProfile', JSON.stringify(profileForContext));
+            router.push('/'); 
+        };
+    
+    //"Añadir nuevo"
     if (isAddNew) {
         return (
-        <div className="border-2 border-dashed p-4 rounded-lg text-center">
+        <div className="border-2 border-dashed p-4 rounded-lg text-center cursor-pointer font-medium transition-all duration-150 hover:scale-105 hover:bg-white/4" onClick={() => setIsCreating?.(true)} >
             <p>+ Añadir perfil</p>
         </div>
         );
     }
 
-    // Perfil nulo/undefined
+    //por las dudaas si es perfil nulo/undefined
     if (!profile) {
         return (
         <div className="border p-4 rounded-lg bg-gray-100">
@@ -120,20 +65,55 @@ export default function ProfileCard({
         );
     }
 
+
+
+
     // Avatar seguro (maneja null/undefined)
     const avatarSrc = profile.avatarUrl 
         ? profile.avatarUrl 
         : '/default-avatar.png'; // Ruta local o URL por defecto
 
     return (
-        <div className="border p-4 rounded-lg">
-        <h3 className="font-bold">{profile.name}</h3>
-        <p>Tipo: {profile.type}</p>
-        <div //AQUI IRIA LA IMG, div con fondo de color nomas a modo de ejemplo, abajo esta la IMG comentada
-        className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mt-2"
+        <div
+            className={`
+                relative border p-4 rounded-lg cursor-pointer font-medium 
+                transition-all duration-150 backdrop-blur-sm 
+                ${!isManaging && 'hover:bg-white/4 hover:scale-105'}
+            `}
+            onClick={isManaging ? undefined : handleSelect}
         >
-        {profile.name.charAt(0).toUpperCase()}
-        </div>
+            
+            {isManaging && (
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    {/*Editar */}
+                    <button className="bg-blue-500 text-white p-1 rounded-full text-xs hover:scale-115 transition-all duration-200">
+                        <Edit size={30} />
+                    </button>
+
+
+                    {/*liminar */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteProfile?.(profile?.id as string);
+                        }}
+                        className="bg-red-500 text-white p-1 rounded-full text-xs hover:scale-115 transition-all duration-200"
+                    >
+                        <Trash size={30} />
+                    </button>
+                </div>
+                )}
+
+
+            <h3 className="font-bold text-lg">{profile.name}</h3>
+
+            <p className="text-sm text-gray-600">Tipo: {profile.type === 'ADULT' ? 'Adulto' : 'Infantil'}</p>
+
+            <div //AQUI IRIA LA IMG, div con fondo de color nomas a modo de ejemplo, abajo esta la IMG comentada
+            className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mt-2 mb-10"
+            >
+            {profile.name.charAt(0).toUpperCase()}
+            </div>
         
         </div>
     );

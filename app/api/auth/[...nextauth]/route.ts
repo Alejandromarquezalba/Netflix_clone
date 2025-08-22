@@ -20,7 +20,7 @@ const authOptions = {
                     });
 
 
-                    console.log("_________Respuesta del login:", response.data);
+                    //console.log("Respuesta del login:", response.data);
                     
                     if (response.data && response.data.user && response.data.access_token) {
                         return {

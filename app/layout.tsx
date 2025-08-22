@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from 'next-auth/react'; 
 import { Providers } from './providers';
+import { ActiveProfileProvider } from '@/contexts/ActiveProfileContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`antialiased bg-zinc-900`}>
-          <Providers> 
-            {children}
-          </Providers> 
+          <ActiveProfileProvider>
+            <Providers> 
+              {children}
+            </Providers>
+        </ActiveProfileProvider>
       </body>
     </html>
   );
