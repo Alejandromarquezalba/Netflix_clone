@@ -12,10 +12,11 @@ interface ProfilesProps {
     isManaging: boolean;
     setIsCreating: (value: boolean) => void;
     handleDeleteProfile: (id: string) => Promise<void>;
+    handleEditProfile: (profileToEdit: Profile) => void; 
 }
 
 
-export function Profiles({ profiles, isManaging, setIsCreating, handleDeleteProfile }: ProfilesProps) {
+export function Profiles({ profiles, isManaging, setIsCreating, handleDeleteProfile, handleEditProfile }: ProfilesProps) {
 
 
     return (
@@ -28,13 +29,14 @@ export function Profiles({ profiles, isManaging, setIsCreating, handleDeleteProf
                     isManaging={isManaging}
                     setIsCreating={setIsCreating}
                     handleDeleteProfile={handleDeleteProfile}
+                    handleEditProfile={handleEditProfile} 
                 />
                 ))}
                 {profiles.length < 5 && (
                 <ProfileCard 
                     isAddNew 
                     isManaging={isManaging} 
-
+                    
                     setIsCreating={setIsCreating}
                 />
                 )}

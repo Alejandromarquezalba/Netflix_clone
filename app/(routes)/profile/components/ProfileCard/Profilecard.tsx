@@ -15,6 +15,7 @@ interface ProfileCardProps {
     isManaging: boolean;
     setIsCreating?: (value: boolean) => void; 
     handleDeleteProfile?: (id: string) => Promise<void>;
+    handleEditProfile?: (profileToEdit: Profile) => void;
 }
 
 
@@ -23,7 +24,8 @@ export default function ProfileCard({
     isAddNew = false, 
     isManaging,
     setIsCreating,
-    handleDeleteProfile
+    handleDeleteProfile,
+    handleEditProfile,
     }: ProfileCardProps) {
 
     const { setActiveProfile } = useActiveProfile();
@@ -86,7 +88,12 @@ export default function ProfileCard({
             {isManaging && (
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
                     {/*Editar */}
-                    <button className="bg-blue-500 text-white p-1 rounded-full text-xs hover:scale-115 transition-all duration-200">
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditProfile?.(profile as Profile);
+                        }}
+                        className="bg-blue-500 text-white p-1 rounded-full text-xs hover:scale-115 transition-all duration-200">
                         <Edit size={30} />
                     </button>
 
