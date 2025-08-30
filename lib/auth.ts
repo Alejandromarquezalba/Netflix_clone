@@ -1,10 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./db";
-import type { NextAuthConfig } from "next-auth"; // <-- Nuevo tipo
+import { NextAuthOptions } from "next-auth"; 
 
-export const authConfig: NextAuthConfig = { // <-- Usa NextAuthConfig
+export const authOptions: NextAuthOptions = { 
     adapter: PrismaAdapter(db),
-    providers: [], // Añade tus proveedores aquí
+    providers: [], 
     callbacks: {
         session({ session, user }) {
         session.user.id = user.id;

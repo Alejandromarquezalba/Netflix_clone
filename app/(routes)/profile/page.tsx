@@ -156,13 +156,13 @@ export default function ProfilesPage() {
                     }
                 );
     
-                // 1. Actualiza la lista de perfiles
+                //Actualiza la lista de perfiles
                 setProfiles(profiles.filter(p => p.id !== profileId));
                 
-                // 2. Limpia el estado si el perfil eliminado es el perfil actual
+                //Limpia el estado si el perfil eliminado es el perfil actual
                 if (currentProfile && currentProfile.id === profileId) {
                     setCurrentProfile(null);
-                    // Si usas localStorage para guardar el perfil, también debes limpiarlo.
+                    //limpieza del localstroage
                     localStorage.removeItem('currentProfile');
                 }
             }
@@ -175,7 +175,6 @@ export default function ProfilesPage() {
 
 
     useEffect(() => {
-        // Si la sesión no existe, no hagas nada
         if (!session) {
             console.log("No hay sesión activa");
             return;
@@ -290,7 +289,7 @@ export default function ProfilesPage() {
                     </div>
                     <DialogFooter>
                         <Button
-                            onClick={handleSaveProfile} // Ahora llama a la nueva función
+                            onClick={handleSaveProfile}
                             className="bg-red-600 hover:bg-red-700 text-white"
                         >
                             Guardar
@@ -301,7 +300,7 @@ export default function ProfilesPage() {
             <div className="flex justify-center space-x-4">
                 
                 <button
-                    onClick={() => router.push('/')} // <-- ¡CAMBIA ESTA LÍNEA!
+                    onClick={() => router.push('/')}
                         className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-medium transition-all duration-200 hover:scale-105 backdrop-blur-sm">
                         <ArrowLeft className="w-5 h-5" />
                         Volver al inicio
