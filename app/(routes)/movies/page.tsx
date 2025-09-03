@@ -37,6 +37,8 @@ export default function MoviesPage() {
 
 
     const fetchMovies = async (query?: string) => {
+
+
         try {
             setIsLoading(true);
             setError(null);
@@ -52,12 +54,22 @@ export default function MoviesPage() {
             });
             
             setMovies(response.data);
-        } catch (err) {
+        } catch (err: any) {
             console.error("Error al cargar las películas:", err);
-            setError("Error al cargar las películas. Por favor, inténtalo de nuevo.");
-        } finally {
-            setIsLoading(false);
-        }
+            
+//errores específicos
+            if (err.response?.status === 500) {
+                setError("Error del servidor. Por favor, intenta nuevamente.");
+                } else if (err.code === 'ECONNABORTED') {
+                setError("Tiempo de espera agotado. Verifica tu conexión.");
+                } else if (err.response?.status === 401) {
+                setError("Sesión expirada. Por favor, inicia sesión nuevamente.");
+                } else {
+                setError("Error al cargar las películas. Por favor, inténtalo de nuevo.");
+                }
+            } finally {
+                setIsLoading(false);
+            }
     };
 
     // useEffect para la carga INICIAL de películas Y favoritos
@@ -107,17 +119,24 @@ export default function MoviesPage() {
         toggleFavorite(movieId); 
     };
 
+/*
+LISTO EL FAVORITES EN PAGES MOVIES como boton nomas, faltaria poner en la page principal.
+*
+*
+* 
+* *
+* *
+* *
+* ****
 
+*/ 
 
-
-
-
-
-
-    //filtrar películas por género
-    const filteredMovies = selectedGenre === 'ALL' 
-        ? movies 
-        : movies.filter(movie => movie.genres.includes(selectedGenre));
+    const filteredMovies = 
+        selectedGenre === 'ALL' 
+            ? movies 
+            : selectedGenre === 'FAVORITES'  
+            ? movies.filter(movie => isFavorite(movie.id))  
+            : movies.filter(movie => movie.genres.includes(selectedGenre));
     if (isLoading) {
         return (
         <div className="min-h-screen bg-black flex items-center justify-center">
@@ -129,6 +148,7 @@ export default function MoviesPage() {
         );
     }
 
+    /*
     if (error) {
         return (
         <div className="min-h-screen bg-black flex items-center justify-center">
@@ -139,7 +159,43 @@ export default function MoviesPage() {
         </div>
         );
     }
+    */
 
+    if (error) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-center">
+                <div className="text-red-500 text-6xl mb-4">⚠️</div>
+                <p className="text-red-500 text-xl mb-6">{error}</p>
+{/*-------------Boton reintentar*/}
+                <button
+                    onClick={() => {
+                    setError(null); 
+                    fetchMovies(searchQuery);
+                    }}
+                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded transition-colors"
+                >
+                    Volver a buscar
+                </button>
+{/*------------Opción para volver al inicio */}
+                <div className="mt-4">
+                    <button
+                    onClick={() => {
+                        setError(null);
+                        setSearchQuery('');
+                        fetchMovies();
+                    }}
+                    className="text-gray-400 hover:text-white transition-colors"
+                    >
+                    o volver a todas las películas
+                    </button>
+                </div>
+                </div>
+            </div>
+            );
+        }
+
+    
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#1a1a1a] via-[#0a0a0a] to-black text-white overflow-x-hidden">
 
@@ -164,34 +220,48 @@ export default function MoviesPage() {
         
             <div className="container mx-auto px-6">
 {/*-------------buscado*/}
-                <div className="flex justify-center mb-8">
-                    <div className="relative w-full max-w-md">
-                        <input
+            <div className="flex justify-center mb-8">
+                <div className="relative w-full max-w-md">
+                    <input
                         type="text"
                         placeholder="Buscar películas..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all duration-300"
-                        />
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                        🔍
-                        </div>
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all duration-300 pr-10" // Añadido pr-10 para el padding
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                        {searchQuery ? (
+                            // Mostrar la X cuando hay texto
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="p-1 text-gray-400 hover:text-white focus:outline-none"
+                                aria-label="Clear search"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        ) : (
+                            // Mostrar la lupa cuando no hay texto
+                            <span>🔍</span>
+                        )}
                     </div>
                 </div>
+            </div>
         
 {/*-------------botones de filtro*/}
                 <div className="flex justify-center space-x-4 mb-8">
-                {['ALL', 'ACTION', 'COMEDY', 'DOCUMENTARY'].map((genre) => (
+                {['ALL', 'ACTION', 'COMEDY', 'DOCUMENTARY', 'FAVORITES'].map((genre) => (
                     <button
-                    key={genre}
-                    onClick={() => setSelectedGenre(genre)}
-                    className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                        selectedGenre === genre
-                        ? 'bg-red-600 text-white shadow-lg shadow-red-600/50'
-                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white'
-                    }`}
-                    >
-                    {genre === 'ALL' ? 'Todas' : genre.charAt(0) + genre.slice(1).toLowerCase()}
+                        key={genre}
+                        onClick={() => setSelectedGenre(genre)}
+                        className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                            selectedGenre === genre
+                            ? 'bg-red-600 text-white shadow-lg shadow-red-600/50'
+                            : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white'
+                        }`}
+                        >
+                        {genre === 'ALL' ? 'Todas' : genre === 'FAVORITES' ? 'Mis Favoritas' : genre.charAt(0) + genre.slice(1).toLowerCase()}
                     </button>
                 ))}
                 </div>
