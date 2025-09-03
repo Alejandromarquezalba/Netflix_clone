@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { formSchema } from "./registerForm.form"
 import axios from 'axios';
-
+import { useState } from 'react';
 
 export function RegisterForm() {
-
+    const [backendError, setBackendError] = useState('');
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -29,23 +29,31 @@ export function RegisterForm() {
             },
         })
 
-
-    const onSubmit = async(values: z.infer<typeof formSchema>) => {
-        try {
-            const dataToSend = {
-                email: values.email,
-                password: values.password,
-                name: values.name,
-            };
-            
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, dataToSend);
-        
-            console.log("Registro exitoso:", response.data);
-            alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
-        } catch (error) {
-            console.log(error)
-        }
-    }
+        const onSubmit = async(values: z.infer<typeof formSchema>) => {
+            try {
+                setBackendError('');
+                const dataToSend = {
+                    email: values.email,
+                    password: values.password,
+                    name: values.name,
+                };
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, dataToSend);
+                console.log("Registro exitoso:", response.data);
+                alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+            } catch (error) {
+                console.log(error);
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorMessage = error.response.data.message;
+                    if (Array.isArray(errorMessage)) {
+                        setBackendError(errorMessage.join(', '));
+                    } else {
+                        setBackendError(errorMessage);
+                    }
+                } else {
+                    setBackendError('Ocurrió un error inesperado. Inténtalo de nuevo.');
+                }
+            }
+        };
         
     return (
         <Form {...form}>
@@ -98,6 +106,11 @@ export function RegisterForm() {
                     </FormItem>
                 )}
                 />
+                {backendError && (
+                    <div className="text-red-500 text-sm mt-2">
+                        {backendError}
+                    </div>
+                )}
                 <Button type="submit" className='cursor-pointer w-full bg-[#a82128]'>Registrarme</Button>
             </form>
         </Form>

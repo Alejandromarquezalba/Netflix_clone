@@ -17,7 +17,7 @@ export function useFavorites() {
             if (cachedFavorites) {
                 setFavorites(JSON.parse(cachedFavorites));
             }
-            // La sincronización con backend sigue en loadFavorites
+            //la sincronización con back sigue en loadfavorites
         }
     }, [session]);
     
@@ -29,7 +29,7 @@ export function useFavorites() {
 
         const storageKey = `favorites_${session.user.id}`;
         
-        // NO sobreescribir el estado aquí, solo sincronizar en segundo plano
+        //no sobreescribimos el estado aqui, solo sincronizar en segundo plano
         setIsLoading(true);
         try {
             const response = await axios.get(
@@ -41,7 +41,7 @@ export function useFavorites() {
                 }
             );
             
-            // Solo actualizar si el backend devuelve datos válidos
+            //solo actualizar si el backend devuelve datos validos
             if (Array.isArray(response.data)) {
                 setFavorites(response.data);
                 localStorage.setItem(storageKey, JSON.stringify(response.data));
@@ -49,7 +49,7 @@ export function useFavorites() {
             
         } catch (error) {
             console.error('Error loading favorites:', error);
-            // Mantener los datos existentes en caso de error
+            //mantenemos datos existentes en caso de err
         } finally {
             setIsLoading(false);
         }
@@ -63,7 +63,6 @@ export function useFavorites() {
         const wasFavorite = favorites.includes(movieId);
         const previousFavorites = [...favorites];
 
-        // Optimistic UI
         const newFavorites = wasFavorite
             ? favorites.filter(id => id !== movieId)
             : [...favorites, movieId];
@@ -93,18 +92,18 @@ export function useFavorites() {
                 );
             }
 
-            // Sincronizar con backend después del cambio
+            //sincronizar con back después del cambio
             await loadFavorites();
 
         } catch (error) {
-            // Revertir en caso de error
+            //revertir en caso de error
             setFavorites(previousFavorites);
             localStorage.setItem(storageKey, JSON.stringify(previousFavorites));
             console.error('Error updating favorite:', error);
         }
     }, [session, favorites, loadFavorites]);
 
-    // Sincronizar al montar el componente
+    //sincronizar al montar el componente
     useEffect(() => {
         if (session) {
             loadFavorites();
