@@ -2,6 +2,7 @@
 import { NavbarDesktop } from "./NavbarDesktop"
 import { NavbarMobile } from "./NavbarMobile/NavbarMobile"
 import { useActiveProfile } from '@/contexts/ActiveProfileContext';
+import HeroBanner from "@/components/herobanner/HeroBanner";
 
 export function Navbar() {
   const { activeProfile } = useActiveProfile();
@@ -16,7 +17,7 @@ export function Navbar() {
       <div className="md:hidden">
         <NavbarMobile></NavbarMobile>
       </div>
-
+      
 
       { /* 
       {activeProfile && (

@@ -47,7 +47,7 @@ export function NavbarDesktop() {
 
                         {status === 'authenticated' && <BellRing />} 
                         
-                        {/* --- Lógica para mostrar nombre de usuario / botones de autenticación --- */}
+{/*---------------------Lógica para mostrar nombre de usuario / botones de autenticación*/}
                         {status === 'loading' && <p>Cargando...</p>} 
                         {status === 'authenticated' && session.user ? (
                             <>

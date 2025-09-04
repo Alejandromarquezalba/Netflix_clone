@@ -135,9 +135,9 @@ export default function ProfilesPage() {
     };
 
     const handleEditProfile = (profileToEdit: Profile) => {
-        setEditingProfileId(profileToEdit.id); //guarda el ID para saber que estoy editando
-        setNewProfileName(profileToEdit.name); //rellena los campos del formulario con la info del perfil
-        setNewProfileType(profileToEdit.type); // Aquí para llenar el campo de restricción de edad
+        setEditingProfileId(profileToEdit.id); //guardar el ID para saber que estoy editando
+        setNewProfileName(profileToEdit.name); //rellenar los campos del formulario con la info del perfil
+        setNewProfileType(profileToEdit.type); //para llenar el campo de restricción de edad
         setNewProfileAgeRestriction(profileToEdit.ageRestriction); 
         setNewProfileAutoPlay(profileToEdit.autoPlay);
         setNewProfilePin(profileToEdit.pin || '');
@@ -156,7 +156,7 @@ export default function ProfilesPage() {
                     }
                 );
     
-                //Actualiza la lista de perfiles
+                //actualizacion la lista de perfiles
                 setProfiles(profiles.filter(p => p.id !== profileId));
                 
                 //Limpia el estado si el perfil eliminado es el perfil actual

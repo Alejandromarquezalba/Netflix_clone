@@ -2,9 +2,9 @@ import { withAuth } from "next-auth/middleware";
 
 const protectedRoutes = [
     "/movies",        
-    // "/series",
-    // "/profile",    
-    // "/favorites",   
+    "/series",
+    "/profile",    
+    "/favorites",   
 ];
 
 export default withAuth(
@@ -29,8 +29,8 @@ export default withAuth(
 export const config = {
     matcher: [
     "/movies/:path*",    
-      // "/series/:path*",
-      // "/profile/:path*",
-      // "/favorites/:path*",
+    "/series/:path*",
+    "/profile/:path*",
+    "/favorites/:path*",
     ],
 };
