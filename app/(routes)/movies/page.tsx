@@ -44,7 +44,7 @@ export default function MoviesPage() {
             setError(null);
             
             const url = query && query.length > 0 
-                ? `${process.env.NEXT_PUBLIC_API_URL}/movies?query=${encodeURIComponent(query)}`
+                ? `${process.env.NEXT_PUBLIC_API_URL}/movies?query=${encodeURIComponent(query)}` //encodeUri es para evitar caracteres especiales qel usuario ponga
                 : `${process.env.NEXT_PUBLIC_API_URL}/movies`;
             
             const response = await axios.get(url, {
@@ -72,7 +72,7 @@ export default function MoviesPage() {
             }
     };
 
-    // useEffect para la carga INICIAL de películas Y favoritos
+    //useEffect para la carga INICIAL de pelis y favorits
     useEffect(() => {
         if (session) {
             fetchMovies();
@@ -80,7 +80,7 @@ export default function MoviesPage() {
         }
     }, [session]); //depende de la sesión para asegurarse de que el token esté disponible
     
-//--useEffect para manejar la búsqueda con debounce (tu código existente, sin cambios)
+//--useEffect para manejar la búsqueda con debounce
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             if (searchQuery.length === 0) {
@@ -119,17 +119,6 @@ export default function MoviesPage() {
         toggleFavorite(movieId); 
     };
 
-/*
-LISTO EL FAVORITES EN PAGES MOVIES como boton nomas, faltaria poner en la page principal.
-*
-*
-* 
-* *
-* *
-* *
-* ****
-
-*/ 
 
     const filteredMovies = 
         selectedGenre === 'ALL' 
@@ -147,19 +136,6 @@ LISTO EL FAVORITES EN PAGES MOVIES como boton nomas, faltaria poner en la page p
         </div>
         );
     }
-
-    /*
-    if (error) {
-        return (
-        <div className="min-h-screen bg-black flex items-center justify-center">
-            <div className="text-center">
-            <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <p className="text-red-500 text-xl">{error}</p>
-            </div>
-        </div>
-        );
-    }
-    */
 
     if (error) {
         return (
