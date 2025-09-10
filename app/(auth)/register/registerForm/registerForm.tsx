@@ -15,9 +15,13 @@ import { Input } from "@/components/ui/input"
 import { formSchema } from "./registerForm.form"
 import axios from 'axios';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from "next-auth/react";
 
 export function RegisterForm() {
     const [backendError, setBackendError] = useState('');
+
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -29,6 +33,17 @@ export function RegisterForm() {
             },
         })
 
+//AQUI AGREGO EL LOGEO LUEGO DEL REGISTRO, osease, registro, y me redirecciona al home logeado digamos.
+/*
+a
+b
+c
+d
+e
+
+*/
+
+
         const onSubmit = async(values: z.infer<typeof formSchema>) => {
             try {
                 setBackendError('');
@@ -37,9 +52,26 @@ export function RegisterForm() {
                     password: values.password,
                     name: values.name,
                 };
+
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, dataToSend);
-                console.log("Registro exitoso:", response.data);
-                alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+
+                const loginResult = await signIn('credentials', {
+                    email: values.email,
+                    password: values.password,
+                    redirect: false,
+                });
+
+                if (loginResult?.error) {
+                    //si falla el login, redirigir al login para que inicie manualmente
+                    setBackendError('Registro exitoso. Por favor inicia sesión.');
+                    setTimeout(() => router.push('/login'), 1500);
+                    } else {
+                        //si todo sale bien, lo redirijo al inicio
+                        router.push('/');
+                    }
+                router.push('/');
+
+
             } catch (error) {
                 console.log(error);
                 if (axios.isAxiosError(error) && error.response) {
@@ -49,10 +81,10 @@ export function RegisterForm() {
                     } else {
                         setBackendError(errorMessage);
                     }
-                } else {
+                    } else {
                     setBackendError('Ocurrió un error inesperado. Inténtalo de nuevo.');
+                    }
                 }
-            }
         };
         
     return (
