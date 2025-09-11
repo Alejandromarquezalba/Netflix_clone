@@ -5,16 +5,56 @@ import { itemsNavbar } from "@/data/itemsNavbar"
 import Link from "next/link"
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useActiveProfile } from '@/contexts/ActiveProfileContext';
+import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+
 
 export function NavbarMobile() {
     const { data: session, status } = useSession();
     const { activeProfile } = useActiveProfile();
+    const router = useRouter();
+    
+    const [backendError, setBackendError] = useState(''); 
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Filtra los ítems de la barra de navegación según la autenticación
+
+    //filtrado de componentes en home segun si esta logeadno
     const displayedNavItems = itemsNavbar.filter(item => {
         return !item.authRequired || status === 'authenticated';
     });
     
+    const handleDemoLogin = async () => {
+                try {
+                    setBackendError('');
+                    setIsLoading(true);
+                
+                    // Datos de la cuenta demo
+                    const demoCredentials = {
+                        email: 'usuario@gmail.com',
+                        password: 'UsuarioDemo123654789'
+                    };
+                
+                    // Intentar login con las credenciales demo
+                    const result = await signIn('credentials', {
+                        email: demoCredentials.email,
+                        password: demoCredentials.password,
+                        redirect: false,
+                    });
+                
+                    if (result?.error) {
+                        setBackendError('Error al acceder con la cuenta demo');
+                    } else {
+                        router.push('/');
+                    }
+                    } catch (error) {
+                    console.error('Error en acceso demo:', error);
+                    setBackendError('Error inesperado en acceso demo');
+                    } finally {
+                    setIsLoading(false);
+                    }
+                };
+
     return (
         <div className="p-4 flex justify-between items-center bg-black">
             <MyLogo></MyLogo>
@@ -67,12 +107,23 @@ export function NavbarMobile() {
                                 </button>
                             </>
                         ) : (
-                            <button
-                                onClick={() => signIn()}
-                                className="w-full py-2 bg-red-600 rounded-md hover:bg-red-700 transition-colors"
-                            >
-                                Iniciar Sesión
-                            </button>
+                            <div className="flex gap-2 items-center">
+                                <Button
+                                    onClick={handleDemoLogin}
+                                    className="bg-green-600 hover:bg-green-800 font-bold"
+                                >
+                                    ⚡️Acceso Demo
+                                </Button>
+                                
+                                <Button
+                                    onClick={() => signIn(undefined, { callbackUrl: '/' })}
+
+                                    className="bg-blue-600 hover:bg-blue-800 font-bold"
+                                >
+                                    Iniciar Sesión
+                                </Button>
+                                
+                            </div>
                         )}
                     </div>
                 </SheetContent>

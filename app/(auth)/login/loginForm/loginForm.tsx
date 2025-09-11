@@ -23,6 +23,7 @@ import { signIn } from "next-auth/react";
 export default function LoginForm() {
     const [formError, setFormError] = useState<string | undefined>('');
 
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -58,6 +59,10 @@ export default function LoginForm() {
             setFormError('Ocurrió un error inesperado al iniciar sesión.');
         }
     }
+    
+
+    
+
 
 
         return (
@@ -92,6 +97,9 @@ export default function LoginForm() {
                     )}
                     />
                     <FormError message={formError}></FormError>
+
+
+
                     <Button className="w-full cursor-pointer bg-[#a82128]" type="submit">Iniciar sesión</Button>
                 </form>
             </Form>

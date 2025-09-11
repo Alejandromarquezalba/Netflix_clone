@@ -7,6 +7,9 @@ import Link from "next/link";
 import { scrollPositionFunc } from "@/hooks/scrollPosition";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useActiveProfile } from '@/contexts/ActiveProfileContext';
+import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 
 export function NavbarDesktop() {
@@ -14,6 +17,10 @@ export function NavbarDesktop() {
     console.log(scrollPosition);
 
     const { data: session, status } = useSession(); 
+    
+    const [backendError, setBackendError] = useState(''); 
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const { activeProfile } = useActiveProfile();
 
@@ -21,6 +28,38 @@ export function NavbarDesktop() {
     const displayedNavItems = itemsNavbar.filter(item => {
         return !item.authRequired || status === 'authenticated';
     });
+
+
+    const handleDemoLogin = async () => {
+            try {
+                setBackendError('');
+                setIsLoading(true);
+            
+                // Datos de la cuenta demo
+                const demoCredentials = {
+                    email: 'usuario@gmail.com',
+                    password: 'UsuarioDemo123654789'
+                };
+            
+                // Intentar login con las credenciales demo
+                const result = await signIn('credentials', {
+                    email: demoCredentials.email,
+                    password: demoCredentials.password,
+                    redirect: false,
+                });
+            
+                if (result?.error) {
+                    setBackendError('Error al acceder con la cuenta demo');
+                } else {
+                    router.push('/');
+                }
+                } catch (error) {
+                console.error('Error en acceso demo:', error);
+                setBackendError('Error inesperado en acceso demo');
+                } finally {
+                setIsLoading(false);
+                }
+            };
 
 
     return (
@@ -62,6 +101,7 @@ export function NavbarDesktop() {
                                     </span>
                                 )}
                                 </p>
+
                                 <button
                                     onClick={() => signOut()} 
                                     className="duration-300 hover:text-gray-400 transition-all cursor-pointer"
@@ -70,12 +110,24 @@ export function NavbarDesktop() {
                                 </button>
                             </>
                         ) : (
-                            <button
-                                onClick={() => signIn(undefined, { callbackUrl: '/' })}
-                                className="duration-300 hover:text-gray-400 transition-all cursor-pointer"
-                            >
-                                Iniciar Sesión
-                            </button>
+                            
+                            <div className="flex gap-2 items-center">
+                                <Button
+                                    onClick={handleDemoLogin}
+                                    className="bg-green-600 hover:bg-green-800 font-bold"
+                                >
+                                    ⚡️Acceso Demo
+                                </Button>
+                                
+                                <Button
+                                    onClick={() => signIn(undefined, { callbackUrl: '/' })}
+
+                                    className="bg-blue-600 hover:bg-blue-800 font-bold"
+                                >
+                                    Iniciar Sesión
+                                </Button>
+                                
+                            </div>
                         )}
 
                     </div>

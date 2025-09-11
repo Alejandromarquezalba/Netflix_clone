@@ -20,13 +20,11 @@ export default function LoginPage() {
             </div>
             <div className='mt-4 flex gap-1'>
                 <p className='text-gray-600 opacity-70'>¿Todavía no tienes cuenta?<br/>
-                    <Link href='/register' className="inline-block hover:scale-103 transition-all text-font-bold">
-                        <span className='text-white'>
-                            Suscribirme ya!
-                        </span>
-                    </Link>
                 </p>
             </div>
+                    <Link href='/register' className="inline-block transition-all text-font-bold">
+                        <Button className="w-full cursor-pointer bg-[#a82128]" type="submit">Registrate aquí</Button>
+                    </Link>
 
             <Terms></Terms>
 

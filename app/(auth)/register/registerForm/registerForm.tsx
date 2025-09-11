@@ -33,17 +33,6 @@ export function RegisterForm() {
             },
         })
 
-//AQUI AGREGO EL LOGEO LUEGO DEL REGISTRO, osease, registro, y me redirecciona al home logeado digamos.
-/*
-a
-b
-c
-d
-e
-
-*/
-
-
         const onSubmit = async(values: z.infer<typeof formSchema>) => {
             try {
                 setBackendError('');
