@@ -35,13 +35,13 @@ export function NavbarDesktop() {
                 setBackendError('');
                 setIsLoading(true);
             
-                // Datos de la cuenta demo
+                //datos de la cuenta demo
                 const demoCredentials = {
                     email: 'usuario@gmail.com',
                     password: 'UsuarioDemo123654789'
                 };
             
-                // Intentar login con las credenciales demo
+                //ontentar login con las credenciales demo
                 const result = await signIn('credentials', {
                     email: demoCredentials.email,
                     password: demoCredentials.password,

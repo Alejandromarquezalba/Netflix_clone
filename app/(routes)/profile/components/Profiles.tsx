@@ -15,9 +15,7 @@ interface ProfilesProps {
     handleEditProfile: (profileToEdit: Profile) => void; 
 }
 
-
 export function Profiles({ profiles, isManaging, setIsCreating, handleDeleteProfile, handleEditProfile }: ProfilesProps) {
-
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -42,9 +40,7 @@ export function Profiles({ profiles, isManaging, setIsCreating, handleDeleteProf
                 )}
             </div>
 
-
             <div className="flex justify-center space-x-4">
-
             
             </div>
         </div>

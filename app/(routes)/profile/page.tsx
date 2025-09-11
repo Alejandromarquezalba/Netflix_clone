@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useActiveProfile } from '@/contexts/ActiveProfileContext';
 
 
 export default function ProfilesPage() {
@@ -45,6 +46,9 @@ export default function ProfilesPage() {
 
 
     const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
+
+    //activacion del perfil
+    const { activeProfile, setActiveProfile } = useActiveProfile();
 
 
 
@@ -159,10 +163,13 @@ export default function ProfilesPage() {
                 //actualizacion la lista de perfiles
                 setProfiles(profiles.filter(p => p.id !== profileId));
                 
+
+                
                 //Limpia el estado si el perfil eliminado es el perfil actual
-                if (currentProfile && currentProfile.id === profileId) {
-                    setCurrentProfile(null);
-                    //limpieza del localstroage
+                if (activeProfile && activeProfile.id === profileId) { 
+                    //limpiamos el estado en tiempo real (para el nav)
+                    setActiveProfile(null); 
+                    //Limpiado del dato guardado en el navegador (pa la proxima visita)
                     localStorage.removeItem('currentProfile');
                 }
             }

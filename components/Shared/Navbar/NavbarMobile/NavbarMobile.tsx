@@ -24,12 +24,17 @@ export function NavbarMobile() {
         return !item.authRequired || status === 'authenticated';
     });
     
+
+
+
+
+
     const handleDemoLogin = async () => {
                 try {
                     setBackendError('');
                     setIsLoading(true);
                 
-                    // Datos de la cuenta demo
+//------------------Datos de la CUENTA DEMO PARA ACCESDER MAS RAPIDO
                     const demoCredentials = {
                         email: 'usuario@gmail.com',
                         password: 'UsuarioDemo123654789'
@@ -64,7 +69,7 @@ export function NavbarMobile() {
                     <Menu/>
                 </SheetTrigger>
                 <SheetContent side="left" className="bg-black w-full sm:max-w-xs">
-                    {/* Corrección del error de accesibilidad: SheetTitle es necesario */}
+
                     <SheetHeader>
                         <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
                     </SheetHeader>
