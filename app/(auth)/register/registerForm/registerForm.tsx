@@ -17,6 +17,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from "next-auth/react";
+import { Toaster } from "@/components/ui/toast";
+import { toast } from 'sonner';
 
 export function RegisterForm() {
     const [backendError, setBackendError] = useState('');
@@ -52,10 +54,12 @@ export function RegisterForm() {
 
                 if (loginResult?.error) {
                     //si falla el login, redirigir al login para que inicie manualmente
-                    setBackendError('Registro exitoso. Por favor inicia sesión.');
+                    toast.success('Registro exitoso. Por favor, inicia sesión.');
+                    //setBackendError('Registro exitoso. Por favor inicia sesión.');
                     setTimeout(() => router.push('/login'), 1500);
                     } else {
                         //si todo sale bien, lo redirijo al inicio
+                        toast.success('¡Registro y login exitoso!');
                         router.push('/');
                     }
                 router.push('/');
@@ -66,12 +70,14 @@ export function RegisterForm() {
                 if (axios.isAxiosError(error) && error.response) {
                     const errorMessage = error.response.data.message;
                     if (Array.isArray(errorMessage)) {
-                        setBackendError(errorMessage.join(', '));
+                        toast.error(errorMessage.join(', '));
+                        //setBackendError(errorMessage.join(', '));
                     } else {
-                        setBackendError(errorMessage);
+                        toast.error(errorMessage);
+                        //setBackendError(errorMessage);
                     }
                     } else {
-                    setBackendError('Ocurrió un error inesperado. Inténtalo de nuevo.');
+                        toast.error('Ocurrió un error inesperado. Inténtalo de nuevo.');
                     }
                 }
         };

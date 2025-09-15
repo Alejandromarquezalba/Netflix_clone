@@ -5,7 +5,7 @@ import "./globals.css";
 import { SessionProvider } from 'next-auth/react'; 
 import { Providers } from './providers';
 import { ActiveProfileProvider } from '@/contexts/ActiveProfileContext';
-
+import { Toaster } from "@/components/ui/toast"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +34,7 @@ export default function RootLayout({
               {children}
             </Providers>
         </ActiveProfileProvider>
+        <Toaster />
       </body>
     </html>
   );

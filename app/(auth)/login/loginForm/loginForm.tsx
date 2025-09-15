@@ -20,6 +20,9 @@ import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { signIn } from "next-auth/react";
 
+import { toast } from 'sonner';
+
+
 export default function LoginForm() {
     const [formError, setFormError] = useState<string | undefined>('');
 
@@ -48,15 +51,18 @@ export default function LoginForm() {
     
             if (result?.error) {
                 //si hay error, se muestras
-                setFormError(result.error);
+                toast.error(result.error);
+                //setFormError(result.error);
             } else {
                 //REDIRECCION A INICIO LOGEO
+                toast.success('¡Has iniciado sesión!');
                 router.push('/');
             }
     
         } catch (error) {
             console.error("Error inesperado:", error);
-            setFormError('Ocurrió un error inesperado al iniciar sesión.');
+            //setFormError('Ocurrió un error inesperado al iniciar sesión.');
+            toast.error('Ocurrió un error inesperado al iniciar sesión.');
         }
     }
     
