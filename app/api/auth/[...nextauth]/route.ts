@@ -69,5 +69,5 @@ const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-// Estas son las exportaciones que Next.js 13+ necesita
+
 export { handler as GET, handler as POST };

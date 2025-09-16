@@ -9,11 +9,13 @@ export const itemsNavbar = [
         href: '/movies',
         authRequired: true
     },
+    /*
     {
         title: 'Series',
         href: '/series',
         authRequired: true
     },
+    */
     {
         title: 'Perfil',
         href: '/profile',

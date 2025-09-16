@@ -157,29 +157,45 @@ interface Movie {
     return (
         <div className="space-y-8 p-8">
 {/*---------Tendencias */}
-            <section>
+        <section>
                 <h2 className="text-2xl font-bold mb-4 text-white">Tendencias</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {moviesTrending.map((movie) => (
-                            <Card 
-                            key={movie.id} 
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {moviesTrending.map((movie) => (
+                        <Card
+                            key={movie.id}
                             className="cursor-pointer hover:scale-105 transition-transform bg-gray-900 border-gray-800"
                             onClick={() => handleMovieClick(movie.id)}
-                            >
+                        >
                             <CardContent className="p-0">
-                                <img 
-                                src={movie.coverUrl} 
-                                alt={movie.title}
-                                className="w-full h-48 object-cover rounded-t-lg"
-                                />
+                                {/*fallback*/}
+                                <div className="w-full h-48 relative">
+                                    <img
+                                        src={movie.coverUrl}
+                                        alt={movie.title}
+                                        className="absolute w-full h-full object-cover rounded-t-lg transition-opacity duration-300"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.classList.add('hidden');
+                                            if (target.nextElementSibling) {
+                                                target.nextElementSibling.classList.remove('hidden');
+                                            }
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 rounded-t-lg bg-gradient-to-br from-red-900 via-purple-800 to-gray-900 flex items-center justify-center text-center hidden">
+                                        <div className="p-4">
+                                            <div className="text-3xl mb-1 text-white">🎬</div>
+                                            <p className="font-semibold text-sm truncate text-white">{movie.title}</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="p-3">
-                                <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
+                                    <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
                                 </div>
                             </CardContent>
-                            </Card>
-                        ))}
-                        </div>
-                    </section>
+                        </Card>
+                    ))}
+                </div>
+            </section>
 {/*-----------------Recomendadas */}
                     <section>
                         <h2 className="text-2xl font-bold mb-4 text-white">Recomendadas para ti</h2>
@@ -190,16 +206,16 @@ interface Movie {
                             className="cursor-pointer hover:scale-105 transition-transform bg-gray-900 border-gray-800"
                             onClick={() => handleMovieClick(movie.id)}
                             >
-                            <CardContent className="p-0">
-                                <img 
-                                    src={movie.coverUrl} 
-                                    alt={movie.title}
-                                    className="w-full h-48 object-cover rounded-t-lg"
-                                />
-                                <div className="p-3">
-                                    <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
-                                </div>
-                            </CardContent>
+                                <CardContent className="p-0">
+                                    <img 
+                                        src={movie.coverUrl} 
+                                        alt={movie.title}
+                                        className="w-full h-48 object-cover rounded-t-lg"
+                                    />
+                                    <div className="p-3">
+                                        <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
+                                    </div>
+                                </CardContent>
                             </Card>
                         ))}
                         </div>
@@ -247,30 +263,45 @@ interface Movie {
                     )}
 
 {/* Todas las películas */}
-                    <section>
-                        <h2 className="text-2xl font-bold mb-4 text-white">Todas las películas</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {moviesTodas.slice(0, 12).map((movie) => (
-                            <Card 
-                            key={movie.id} 
-                            className="cursor-pointer hover:scale-105 transition-transform bg-gray-900 border-gray-800"
-                            onClick={() => handleMovieClick(movie.id)}
-                            >
-                            <CardContent className="p-0">
-                                <img 
-                                src={movie.coverUrl} 
-                                alt={movie.title}
-                                className="w-full h-48 object-cover rounded-t-lg"
-                                />
+                        <section>
+                            <h2 className="text-2xl font-bold mb-4 text-white">Todas las películas</h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            {moviesTodas.slice(0, 12).map((movie) => (
+                                <Card 
+                                key={movie.id} 
+                                className="cursor-pointer hover:scale-105 transition-transform bg-gray-900 border-gray-800"
+                                onClick={() => handleMovieClick(movie.id)}
+                                >
+                                <CardContent className="p-0">
+                                {/*fallback*/}
+                                <div className="w-full h-48 relative">
+                                    <img
+                                        src={movie.coverUrl}
+                                        alt={movie.title}
+                                        className="absolute w-full h-full object-cover rounded-t-lg transition-opacity duration-300"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.classList.add('hidden');
+                                            if (target.nextElementSibling) {
+                                                target.nextElementSibling.classList.remove('hidden');
+                                            }
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 rounded-t-lg bg-gradient-to-br from-red-900 via-purple-800 to-gray-900 flex items-center justify-center text-center hidden">
+                                        <div className="p-4">
+                                            <div className="text-3xl mb-1 text-white">🎬</div>
+                                            <p className="font-semibold text-sm truncate text-white">{movie.title}</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="p-3">
-                                <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
-                                <p className="text-gray-500 text-xs">{movie.genres.join(', ')}</p>
+                                    <h3 className="font-semibold text-sm truncate text-white">{movie.title}</h3>
                                 </div>
                             </CardContent>
-                            </Card>
-                        ))}
-                        </div>
-                    </section>
+                                </Card>
+                            ))}
+                            </div>
+                        </section>
                     </div>
                 );
 }
