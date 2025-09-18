@@ -1,6 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 NFLEX - Clon de Netflix (Frontend)
 
-## Getting Started
+Un clon de Netflix full-stack con autenticación personalizada, búsqueda en tiempo real y sistema de favoritos. Desarrollado con Next.js.
+
+[![Demo en Vivo](https://img.shields.io/badge/🚀_Demo_Frontend-Click_Here-0D67B6?style=for-the-badge)](https://tu-frontend.vercel.app)
+[![Repositorio Backend](https://img.shields.io/badge/🔧_Repositorio_Backend-Click_Here-093B59?style=for-the-badge)](https://github.com/tu-usuario/nflex-backend)
+
+## ✨ Características Principales
+
+- **🔐 Autenticación Segura:** Registro y login de usuarios con JWT.
+- **🎬 Búsqueda en Tiempo Real:** Integración con una API externa (TMDB).
+- **❤️ Sistema de Favoritos:** Los usuarios pueden guardar sus películas favoritas.
+- **📱 Diseño Responsive:** Funciona perfectamente en desktop, tablet y móvil.
+- **🚀 Modo Demo:** Acceso rápido con un solo clic para reclutadores.
+
+## 🖼️ Capturas de Pantalla
+
+| Login | Home | Búsqueda |
+| :---: | :---: | :---: |
+| ![Página de Login](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/login.png?raw=true) | ![Página Principal](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/home.png?raw=true) | ![Página de Búsqueda](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/search.png?raw=true) |
+
+## 🛠️ Tech Stack
+
+**Frontend:** Next.js, React, Tailwind CSS
+**Backend:** Node.js, Express, JWT, Bcrypt
+
+## 🚀 Cómo Probar el Proyecto
+
+### Opción 1: Demo Rápida (Recomendada para Reclutadores)
+1. Visita la [demo en vivo](https://tu-frontend.vercel.app).
+2. **¡Usa el modo invitado!** Haz clic en **"Acceder como Invitado"** o utiliza estas credenciales:
+   - **Email:** demo@demo.com
+   - **Contraseña:** demo123
+
+### Opción 2: Ejecución Local (Para Developers)
 
 First, run the development server:
 
@@ -12,39 +44,3 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Aviso de derechos de autor
-
-Este proyecto se presenta como parte de mi portafolio para fines de evaluación y demostración de mis habilidades.
-
-Todos los derechos de autor del código fuente y los materiales incluidos en este repositorio son propiedad exclusiva de Cristian Alejandro Marquez Alba.
-
-Se permite la visualización del código con fines de evaluación y revisión. Sin embargo, se prohíbe expresamente la copia, modificación, distribución o uso de este código en cualquier otro proyecto, ya sea comercial o no comercial, sin mi autorización previa por escrito.
-
-Cualquier uso no autorizado de este código constituye una infracción de los derechos de autor y puede dar lugar a acciones legales.
-
-Si estás interesado en utilizar este código en tu proyecto, por favor contáctame a través de 'alejandromarquez.alba@gmail.com' para discutir las opciones de licencia.
-
-Gracias por respetar mi trabajo.
