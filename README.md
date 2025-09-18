@@ -10,14 +10,17 @@ Un clon de Netflix full-stack con autenticación personalizada, búsqueda en tie
 - **🔐 Autenticación Segura:** Registro y login de usuarios con JWT.
 - **🎬 Búsqueda en Tiempo Real:** Integración con una API externa (TMDB).
 - **❤️ Sistema de Favoritos:** Los usuarios pueden guardar sus películas favoritas.
-- **📱 Diseño Responsive:** Funciona perfectamente en desktop, tablet y móvil.
+- **📱 Diseño Responsive:** Funciona perfectamente en desktop y móvil.
 - **🚀 Modo Demo:** Acceso rápido con un solo clic para reclutadores.
 
-## 🖼️ Capturas de Pantalla
+## 🖼️ Demonstración Visual
 
-| Login | Home | Búsqueda |
+| Acceso y Autenticación | Gestión de Perfiles | Experiencia Principal |
 | :---: | :---: | :---: |
-| ![Página de Login](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/login.png?raw=true) | ![Página Principal](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/home.png?raw=true) | ![Página de Búsqueda](https://github.com/tu-usuario/tu-repo/blob/main/screenshots/search.png?raw=true) |
+| **Home Público vs. Home Privado** - El catálogo se desbloquea tras el login. | **Vista de Perfiles vs. Edición** - Creación y administración de perfiles personalizados. | **Exploración Completa** - Búsqueda, filtros y gestión de favoritos. |
+| ![Home Public vs Private](https://github.com/Alejandromarquezalba/Netflix_clone/blob/main/logeo_antes_despues.png?raw=true) | ![Profiles Management](https://github.com/Alejandromarquezalba/Netflix_clone/blob/main/perfil_antes_despues.png?raw=true) | ![Movies Section](https://github.com/Alejandromarquezalba/Netflix_clone/blob/main/peliculas_seccion.png?raw=true) |
+| **Flujo de Autenticación** - Login y registro de usuarios. | | |
+| ![Login vs Register](https://github.com/Alejandromarquezalba/Netflix_clone/blob/main/login_y_registro.png?raw=true) | | |
 
 ## 🛠️ Tech Stack
 
