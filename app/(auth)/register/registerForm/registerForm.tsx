@@ -62,7 +62,7 @@ export function RegisterForm() {
                         toast.success('¡Registro y login exitoso!');
                         router.push('/');
                     }
-                router.push('/');
+                //router.push('/');
 
 
             } catch (error) {
