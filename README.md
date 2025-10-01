@@ -2,8 +2,9 @@
 
 Un clon de Netflix full-stack con autenticación personalizada, búsqueda en tiempo real y sistema de favoritos. Desarrollado con Next.js.
 
-[![Demo en Vivo](https://img.shields.io/badge/🚀_Demo_Frontend-Click_Here-0D67B6?style=for-the-badge)](https://tu-frontend.vercel.app)
+[![Demo en Vivo](https://img.shields.io/badge/🚀_Demo_Frontend-Click_Here-0D67B6?style=for-the-badge)](https://netflix-clone-topaz-iota.vercel.app/)
 [![Repositorio Backend](https://img.shields.io/badge/🔧_Repositorio_Backend-Click_Here-093B59?style=for-the-badge)](https://github.com/tu-usuario/nflex-backend)
+[![API en Vivo](https://img.shields.io/badge/💻_API_Backend-En_Línea-34A853?style=for-the-badge)](https://netflixcloneback-production.up.railway.app)
 
 ## ✨ Características Principales
 
@@ -25,19 +26,22 @@ Un clon de Netflix full-stack con autenticación personalizada, búsqueda en tie
 ## 🛠️ Tech Stack
 
 **Frontend:** Next.js, React, Tailwind CSS
-**Backend:** Node.js, Express, JWT, Bcrypt
+**Backend:** Node.js, Express, **Prisma** (te recomiendo añadirlo), JWT, Bcrypt
 
 ## 🚀 Cómo Probar el Proyecto
 
 ### Opción 1: Demo Rápida (Recomendada para Reclutadores)
-1. Visita la [demo en vivo](https://tu-frontend.vercel.app).
+1. Visita la **[demo en vivo]**(https://netflix-clone-topaz-iota.vercel.app/).
 2. **¡Usa el modo invitado!** Haz clic en **"Acceder como Invitado"** o utiliza estas credenciales:
    - **Email:** demo@demo.com
    - **Contraseña:** demo123
 
 ### Opción 2: Ejecución Local (Para Developers)
 
-First, run the development server:
+Asegúrate de configurar la URL de tu backend y las variables de entorno para desarrollo.
+
+1.  **Clonar el Repositorio** y luego,
+2.  Ejecuta el servidor de desarrollo:
 
 ```bash
 npm run dev
