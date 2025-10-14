@@ -37,8 +37,8 @@ export function NavbarDesktop() {
             
                 //datos de la cuenta demo
                 const demoCredentials = {
-                    email: 'usuario@gmail.com',
-                    password: 'UsuarioDemo123654789'
+                    email: 'demo@gmail.com',
+                    password: 'Demo123654789'
                 };
             
                 //ontentar login con las credenciales demo
