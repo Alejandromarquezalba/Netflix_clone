@@ -67,6 +67,9 @@ export function RegisterForm() {
 
             } catch (error) {
                 console.log(error);
+
+
+                
                 if (axios.isAxiosError(error) && error.response) {
                     const errorMessage = error.response.data.message;
                     if (Array.isArray(errorMessage)) {
