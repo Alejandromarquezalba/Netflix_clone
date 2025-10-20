@@ -31,23 +31,42 @@ Un clon de Netflix full-stack con autenticación personalizada, búsqueda en tie
 ## 🚀 Cómo Probar el Proyecto
 
 ### Opción 1: Demo Rápida (Recomendada para Reclutadores)
-1. Visita la **[demo en vivo]**(https://netflix-clone-topaz-iota.vercel.app/).
+1. Visita la **[demo en vivo]** (https://netflix-clone-topaz-iota.vercel.app/).
 2. **¡Usa el modo invitado!** Haz clic en **"Acceder como Invitado"** o utiliza estas credenciales:
-   - **Email:** demo@demo.com
-   - **Contraseña:** demo123
+   - **Email:** NewDemo@gmail.com
+   - **Contraseña:** New147852369
 
-### Opción 2: Ejecución Local (Para Developers)
+## 💻 Ejecución Local (Para Developers)
 
-Asegúrate de configurar la URL de tu backend y las variables de entorno para desarrollo.
+### Prerrequisitos
+- Node.js 18+
+- Cuenta en [Railway](https://railway.app) para base de datos
 
-1.  **Clonar el Repositorio** y luego,
-2.  Ejecuta el servidor de desarrollo:
-
+### 1. Clonar Repositorio
 ```bash
+git clone https://github.com/Alejandromarquezalba/Netflix_clone.git
+cd Netflix_clone
+
+2. Configurar Backend (Puerto 3001)
+bash
+
+cd netflix_clone_back
+npm install
+
+# Configurar variables (consulta .env.example)
+cp .env.example .env
+# Editar .env con tus credenciales
+
+npm run start:dev
+
+3. Configurar Frontend (Puerto 3000)
+bash
+
+cd ../netf_app_ex  
+npm install
+
+# Configurar variables (consulta .env.local.example)
+cp .env.local.example .env.local
+# Editar .env.local
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
